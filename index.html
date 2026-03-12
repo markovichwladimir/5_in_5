@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,24 +14,24 @@
 
 <h1 id="gameTitle"><span class="pulse">5</span> in <span class="pulse">5</span></h1>
 
-<div id="playerBar">Igrač: <span id="playerName"></span> <button id="changeNameBtn">Promeni</button></div>
+<div id="playerBar">Player: <span id="playerName"></span> <button id="changeNameBtn">Change</button></div>
 
 <div id="nameModal">
 <div id="nameBox">
-<h2>Dobrodošli!</h2>
-<p>Unesite vaše ime:</p>
-<input id="nameInput" type="text" maxlength="30" placeholder="Vaše ime">
+<h2>Welcome!</h2>
+<p>Enter your name:</p>
+<input id="nameInput" type="text" maxlength="30" placeholder="Your name">
 <br><br>
-<button id="saveNameBtn">Potvrdi</button>
+<button id="saveNameBtn">Confirm</button>
 </div>
 </div>
 
 <div id="instructions">
-<strong>Uputstvo:</strong>
+<strong>Instructions:</strong>
 <ul>
-<li>Kliknite 5 puta na crveni kružić za 5 sekundi</li>
-<li>Najbliže vreme 5 sekundi je pobednik</li>
-<li>Igra ima maksimalno 5 rundi</li>
+<li>Click the red circle 5 times in 5 seconds</li>
+<li>The time closest to 5 seconds wins</li>
+<li>The game has a maximum of 5 rounds</li>
 </ul>
 </div>
 
@@ -40,13 +40,13 @@
 <div id="container">
 <div id="gameCol">
 <div id="gameStats">
-<h2>Klikovi: <span id="clicks">0</span>/5</h2>
-<h2>Vreme: <span id="time">0.000</span>s</h2>
+<h2>Clicks: <span id="clicks">0</span>/5</h2>
+<h2>Time: <span id="time">0.000</span>s</h2>
 </div>
 <div id="gameArea"><div id="circle"></div></div>
 </div>
 <div id="sidebar">
-<h2>Vremena</h2>
+<h2>Times</h2>
 <ul id="times"></ul>
 </div>
 </div>
@@ -54,13 +54,13 @@
 <div id="overlay"></div>
 
 <div id="sharePopup">
-<h2>Čestitamo!</h2>
+<h2>Congratulations!</h2>
 <p id="bestResultText"></p>
 <button id="facebookShare" class="fbShare">
 <i class="fab fa-facebook-f"></i> Share on Facebook
 </button>
 <br><br>
-<button id="closePopup">Zatvori</button>
+<button id="closePopup">Close</button>
 </div>
 
 <script src="script.js"></script>

@@ -65,7 +65,7 @@ function _animateTitleClick(){
 
 // =============== Eventi ===============
 _circle.addEventListener("click",()=>{
-  if(!_g){alert("Igra je završena. Kliknite Reset.");return;}
+  if(!_g){alert("Game over. Click Reset.");return;}
   _playClick();
   _animateTitleClick();
   if(_c===0){_s=Date.now();}
@@ -84,7 +84,7 @@ _circle.addEventListener("click",()=>{
       _g=false;
       let bestTime=_results.reduce((b,curr)=>Math.abs(_t-curr)<Math.abs(_t-b)?curr:b,_results[0]);
       const diff=Math.abs(_t-bestTime);
-      _bestResultText.textContent=`Vaš najbolji rezultat je ${bestTime.toFixed(3)} s. To je samo ${diff.toFixed(3)} s od idealnih 5 sekundi!`;
+      _bestResultText.textContent=`Your best result is ${bestTime.toFixed(3)} s. That is only ${diff.toFixed(3)} s away from the perfect 5 seconds!`;
       _overlay.style.display="block";
       _sharePopup.style.display="block";
     }
@@ -104,7 +104,7 @@ document.getElementById("closePopup").onclick=()=>{
 
 document.getElementById("facebookShare").onclick=()=>{
   const url=encodeURIComponent(window.location.href);
-  const text=encodeURIComponent("Pogledajte moj rezultat u 5 in 5 igri!");
+  const text=encodeURIComponent("Check out my result in the 5 in 5 game!");
   window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`);
 };
 
