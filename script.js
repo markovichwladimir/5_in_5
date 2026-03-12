@@ -108,6 +108,74 @@ document.getElementById("facebookShare").onclick=()=>{
   window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`);
 };
 
+// =============== Space Game ===============
+let _sc=0, _ss=null;
+let _sp=0, _sg=true;
+const _pressesText=document.getElementById("presses");
+const _timeSpaceText=document.getElementById("timeSpace");
+const _timesSpaceList=document.getElementById("timesSpace");
+const _spaceKey=document.getElementById("spaceKey");
+const _resultsSpace=[];
+
+function _renderTimesSpace(){
+  _timesSpaceList.innerHTML="";
+  let bestIndex=-1, bestDiff=Infinity;
+  _resultsSpace.forEach((time,i)=>{
+    const diff=Math.abs(_t-time);
+    if(diff<bestDiff){bestDiff=diff;bestIndex=i;}
+  });
+  _resultsSpace.forEach((time,i)=>{
+    const li=document.createElement("li");
+    const diff=Math.abs(_t-time);
+    li.textContent=(i+1)+" — "+time.toFixed(3)+" s (Δ "+diff.toFixed(3)+" s)";
+    if(i===bestIndex){li.classList.add("best");li.textContent+=" ⭐";}
+    _timesSpaceList.appendChild(li);
+  });
+}
+
+function _handleSpace(){
+  const activeTab=document.querySelector(".tabBtn.active").dataset.tab;
+  if(activeTab!=="space") return;
+  if(_nameModal.style.display==="block") return;
+  if(!_sg){alert("Game over. Click Reset.");return;}
+  _playClick();
+  _animateTitleClick();
+  _spaceKey.classList.add("pressed");
+  setTimeout(()=>_spaceKey.classList.remove("pressed"),100);
+  if(_sc===0){_ss=Date.now();}
+  _sc++;
+  _pressesText.textContent=_sc;
+  if(_sc===5){
+    const endTime=Date.now();
+    const totalTime=(endTime-_ss)/1000;
+    _timeSpaceText.textContent=totalTime.toFixed(3);
+    _resultsSpace.push(totalTime);
+    _renderTimesSpace();
+    _sc=0; _pressesText.textContent=0; _ss=null;
+    _sp++;
+    if(_sp>=_m){
+      _sg=false;
+      let bestTime=_resultsSpace.reduce((b,curr)=>Math.abs(_t-curr)<Math.abs(_t-b)?curr:b,_resultsSpace[0]);
+      const diff=Math.abs(_t-bestTime);
+      _bestResultText.textContent=`Your best result is ${bestTime.toFixed(3)} s. That is only ${diff.toFixed(3)} s away from the perfect 5 seconds!`;
+      _overlay.style.display="block";
+      _sharePopup.style.display="block";
+    }
+  }
+}
+
+document.addEventListener("keydown",(e)=>{
+  if(e.code==="Space"&&e.target===document.body){
+    e.preventDefault();
+    _handleSpace();
+  }
+});
+
+document.getElementById("resetBtnSpace").addEventListener("click",()=>{
+  _sc=0; _ss=null; _resultsSpace.length=0; _sp=0; _sg=true;
+  _pressesText.textContent=0; _timeSpaceText.textContent="0.000"; _timesSpaceList.innerHTML="";
+});
+
 // =============== Ime igrača ===============
 const _nameModal=document.getElementById("nameModal");
 const _nameInput=document.getElementById("nameInput");
@@ -137,6 +205,17 @@ if(_savedName){
 } else {
   _showNameModal();
 }
+
+// =============== Tabs ===============
+document.querySelectorAll(".tabBtn").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tabBtn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".tabPanel").forEach(p=>p.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
+  });
+});
+document.getElementById("tab-game").classList.add("active");
 
 // =============== Init ===============
 _moveCircle();
