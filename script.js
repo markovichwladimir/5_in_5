@@ -108,6 +108,36 @@ document.getElementById("facebookShare").onclick=()=>{
   window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`);
 };
 
+// =============== Ime igrača ===============
+const _nameModal=document.getElementById("nameModal");
+const _nameInput=document.getElementById("nameInput");
+const _playerName=document.getElementById("playerName");
+
+function _showNameModal(){
+  _nameInput.value="";
+  _nameModal.style.display="block";
+  _nameInput.focus();
+}
+
+function _saveName(){
+  const name=_nameInput.value.trim();
+  if(!name) return;
+  sessionStorage.setItem("playerName",name);
+  _playerName.textContent=name;
+  _nameModal.style.display="none";
+}
+
+document.getElementById("saveNameBtn").addEventListener("click",_saveName);
+_nameInput.addEventListener("keydown",(e)=>{if(e.key==="Enter")_saveName();});
+document.getElementById("changeNameBtn").addEventListener("click",_showNameModal);
+
+const _savedName=sessionStorage.getItem("playerName");
+if(_savedName){
+  _playerName.textContent=_savedName;
+} else {
+  _showNameModal();
+}
+
 // =============== Init ===============
 _moveCircle();
 
