@@ -15,15 +15,17 @@ text-shadow:3px 3px 0 #f1c40f,6px 6px 0 #3498db;
 @keyframes pulseClick{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
 #instructions{border:2px solid #444;padding:15px;margin:20px 0;background:#f9f9f9;text-align:left;}
 button{padding:10px 20px;font-size:16px;border:none;border-radius:5px;cursor:pointer;}
-#resetBtn{background:#e74c3c;color:white;}
+#resetBtn{background:#e74c3c;color:white;margin-bottom:15px;}
 #resetBtn:hover{background:#c0392b;}
-#stats{display:flex;justify-content:space-between;margin-bottom:10px;}
-.stat-col{display:flex;flex-direction:column;align-items:center;}
 #container{display:flex;gap:20px;align-items:stretch;}
-#gameArea {flex:3;border:2px solid black;position:relative;min-height:400px;}
-#circle{width:60px;height:60px;background:red;border-radius:50%;position:absolute;cursor:pointer;}
-#sidebar {flex:2;display:flex;flex-direction:column;}
-#times{list-style:none;padding:0;border:1px solid #ccc;height:400px;overflow:auto;}
+#gameCol{flex:3;display:flex;flex-direction:column;}
+#gameStats{display:flex;justify-content:space-around;margin-bottom:10px;}
+#gameStats h2{margin:0;}
+#gameArea{flex:1;border:2px solid black;position:relative;min-height:400px;}
+#circle{width:72px;height:72px;background:red;border-radius:50%;position:absolute;cursor:pointer;}
+#sidebar{flex:2;display:flex;flex-direction:column;}
+#sidebar>h2{margin:0 0 10px 0;}
+#times{list-style:none;padding:0;border:1px solid #ccc;flex:1;overflow:auto;}
 .best{color:green;font-weight:bold;}
 #overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);}
 #sharePopup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:25px;border-radius:10px;box-shadow:0 0 10px black;width:300px;}
@@ -35,6 +37,6 @@ body{padding:0 10px;}
 #gameTitle{font-size:36px;}
 #container{flex-direction:column;}
 #gameArea{min-height:300px;}
-#times{height:200px;}
+#times{height:200px;flex:none;}
 #sharePopup{width:90%;max-width:300px;}
 }

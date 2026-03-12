@@ -16,9 +16,24 @@ const _bestResultText=document.getElementById("bestResultText");
 const _results=[];
 
 // =============== Funkcije ===============
+const _audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+
+function _playClick(){
+  const osc=_audioCtx.createOscillator();
+  const gain=_audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(_audioCtx.destination);
+  osc.frequency.setValueAtTime(600,_audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(200,_audioCtx.currentTime+0.08);
+  gain.gain.setValueAtTime(0.3,_audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001,_audioCtx.currentTime+0.08);
+  osc.start(_audioCtx.currentTime);
+  osc.stop(_audioCtx.currentTime+0.08);
+}
+
 function _moveCircle(){
-  const maxX=_gameArea.clientWidth-60;
-  const maxY=_gameArea.clientHeight-60;
+  const maxX=_gameArea.clientWidth-72;
+  const maxY=_gameArea.clientHeight-72;
   _circle.style.left=Math.random()*maxX+"px";
   _circle.style.top=Math.random()*maxY+"px";
 }
@@ -51,6 +66,7 @@ function _animateTitleClick(){
 // =============== Eventi ===============
 _circle.addEventListener("click",()=>{
   if(!_g){alert("Igra je završena. Kliknite Reset.");return;}
+  _playClick();
   _animateTitleClick();
   if(_c===0){_s=Date.now();}
   _c++;
