@@ -148,6 +148,7 @@ function _handleSpace(){
     _resultsSpace.push(totalTime);
     _renderTimesSpace();
     _sc=0; _pressesText.textContent=0; _ss=null;
+    _spaceInput.setSelectionRange(0,0);
     _sp++;
     if(_sp>=_m){
       _sg=false;
@@ -161,10 +162,11 @@ function _handleSpace(){
 }
 
 _spaceInput.addEventListener("keydown",(e)=>{
-  e.preventDefault();
-  if(e.code==="Space") _handleSpace();
+  if(e.code==="Space"){
+    e.preventDefault();
+    _handleSpace();
+  }
 });
-_spaceInput.addEventListener("input",()=>{_spaceInput.value="";});
 
 document.getElementById("resetBtnSpace").addEventListener("click",()=>{
   _sc=0; _ss=null; _resultsSpace.length=0; _sp=0; _sg=true;
@@ -209,9 +211,14 @@ document.querySelectorAll(".tabBtn").forEach(btn=>{
     btn.classList.add("active");
     document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
     if(btn.dataset.tab==="space") _spaceInput.focus();
+    if(btn.dataset.tab!=="space") _spaceInput.blur();
   });
 });
 document.getElementById("tab-game").classList.add("active");
+
+document.getElementById("tab-space").addEventListener("click",(e)=>{
+  if(e.target!==_spaceInput) _spaceInput.focus();
+});
 
 // =============== Init ===============
 _moveCircle();

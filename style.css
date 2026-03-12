@@ -52,7 +52,7 @@ button{padding:10px 20px;font-size:16px;border:none;border-radius:5px;cursor:poi
 #gameStatsSpace{display:flex;justify-content:space-around;margin-bottom:10px;}
 #gameStatsSpace h2{margin:0;}
 #spaceArea{flex:1;border:2px solid black;position:relative;min-height:400px;display:flex;align-items:center;justify-content:center;}
-#spaceInput{width:80%;padding:14px;font-size:18px;text-align:center;border:3px solid #999;border-radius:8px;background:#f0f0f0;cursor:pointer;caret-color:transparent;outline:none;}
+#spaceInput{width:80%;padding:14px;font-size:18px;text-align:center;border:3px solid #999;border-radius:8px;background:#f0f0f0;outline:none;}
 #spaceInput:focus{border-color:#e74c3c;background:#fff;}
 #sidebarSpace{flex:2;display:flex;flex-direction:column;}
 #sidebarSpace>h2{margin:0 0 10px 0;}
