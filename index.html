@@ -6,39 +6,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-body{
-font-family:Arial;
-text-align:center;
-max-width:900px;
-margin:auto;
-}
-#gameTitle{
-font-family:'Arial Black';
-font-size:60px;
-color:#e74c3c;
-text-shadow:3px 3px 0 #f1c40f,6px 6px 0 #3498db;
-}
-.pulse{display:inline-block;animation:pulseAnim 1s infinite;}
-@keyframes pulseAnim{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-@keyframes pulseClick{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
-#instructions{border:2px solid #444;padding:15px;margin:20px 0;background:#f9f9f9;text-align:left;}
-button{padding:10px 20px;font-size:16px;border:none;border-radius:5px;cursor:pointer;}
-#resetBtn{background:#e74c3c;color:white;}
-#resetBtn:hover{background:#c0392b;}
-#stats{display:flex;justify-content:space-between;margin-bottom:10px;}
-.stat-col{display:flex;flex-direction:column;align-items:center;}
-#container{display:flex;gap:20px;align-items:stretch;}
-#gameArea {flex:3;border:2px solid black;position:relative;min-height:400px;}
-#circle{width:60px;height:60px;background:red;border-radius:50%;position:absolute;cursor:pointer;}
-#sidebar {flex:2;display:flex;flex-direction:column;}
-#times{list-style:none;padding:0;border:1px solid #ccc;height:400px;overflow:auto;}
-.best{color:green;font-weight:bold;}
-#overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);}
-#sharePopup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:25px;border-radius:10px;box-shadow:0 0 10px black;width:300px;}
-.fbShare{background:#1877F2;color:white;padding:12px 20px;border-radius:6px;margin-top:10px;}
-.fbShare:hover{background:#145dbf;}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -85,106 +53,7 @@ button{padding:10px 20px;font-size:16px;border:none;border-radius:5px;cursor:poi
 <button id="closePopup">Zatvori</button>
 </div>
 
-<script>
-(function(){
-"use strict";
-
-// =============== Promenljive ===============
-let _c=0, _s=null;
-const _t=5, _m=5;
-let _p=0, _g=true;
-const _circle=document.getElementById("circle");
-const _clicksText=document.getElementById("clicks");
-const _timeText=document.getElementById("time");
-const _gameArea=document.getElementById("gameArea");
-const _timesList=document.getElementById("times");
-const _overlay=document.getElementById("overlay");
-const _sharePopup=document.getElementById("sharePopup");
-const _bestResultText=document.getElementById("bestResultText");
-const _results=[];
-
-// =============== Funkcije ===============
-function _moveCircle(){
-  const maxX=_gameArea.clientWidth-60;
-  const maxY=_gameArea.clientHeight-60;
-  _circle.style.left=Math.random()*maxX+"px";
-  _circle.style.top=Math.random()*maxY+"px";
-}
-
-function _renderTimes(){
-  _timesList.innerHTML="";
-  let bestIndex=-1, bestDiff=Infinity;
-  _results.forEach((time,i)=>{
-    const diff=Math.abs(_t-time);
-    if(diff<bestDiff){bestDiff=diff;bestIndex=i;}
-  });
-  _results.forEach((time,i)=>{
-    const li=document.createElement("li");
-    const diff=Math.abs(_t-time);
-    li.textContent=(i+1)+" — "+time.toFixed(3)+" s (Δ "+diff.toFixed(3)+" s)";
-    if(i===bestIndex){li.classList.add("best");li.textContent+=" ⭐";}
-    _timesList.appendChild(li);
-  });
-}
-
-function _animateTitleClick(){
-  document.querySelectorAll(".pulse").forEach(num=>{
-    num.style.animation="pulseClick 0.3s";
-    num.addEventListener("animationend",()=>{
-      num.style.animation="pulseAnim 1s infinite";
-    },{once:true});
-  });
-}
-
-// =============== Eventi ===============
-_circle.addEventListener("click",()=>{
-  if(!_g){alert("Igra je završena. Kliknite Reset.");return;}
-  _animateTitleClick();
-  if(_c===0){_s=Date.now();}
-  _c++;
-  _clicksText.textContent=_c;
-  if(_c===5){
-    const endTime=Date.now();
-    const totalTime=(endTime-_s)/1000;
-    _timeText.textContent=totalTime.toFixed(3);
-    _results.push(totalTime);
-    _renderTimes();
-    _moveCircle();
-    _c=0; _clicksText.textContent=0; _s=null;
-    _p++;
-    if(_p>=_m){
-      _g=false;
-      let bestTime=_results.reduce((b,curr)=>Math.abs(_t-curr)<Math.abs(_t-b)?curr:b,_results[0]);
-      const diff=Math.abs(_t-bestTime);
-      _bestResultText.textContent=`Vaš najbolji rezultat je ${bestTime.toFixed(3)} s. To je samo ${diff.toFixed(3)} s od idealnih 5 sekundi!`;
-      _overlay.style.display="block";
-      _sharePopup.style.display="block";
-    }
-  }
-});
-
-document.getElementById("resetBtn").addEventListener("click",()=>{
-  _c=0; _s=null; _results.length=0; _p=0; _g=true;
-  _clicksText.textContent=0; _timeText.textContent="0.000"; _timesList.innerHTML="";
-  _moveCircle();
-});
-
-document.getElementById("closePopup").onclick=()=>{
-  _overlay.style.display="none";
-  _sharePopup.style.display="none";
-};
-
-document.getElementById("facebookShare").onclick=()=>{
-  const url=encodeURIComponent(window.location.href);
-  const text=encodeURIComponent("Pogledajte moj rezultat u 5 in 5 igri!");
-  window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`);
-};
-
-// =============== Init ===============
-_moveCircle();
-
-})();
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
