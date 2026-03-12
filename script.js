@@ -165,7 +165,16 @@ _spaceInput.addEventListener("keydown",(e)=>{
   if(e.code==="Space"){
     e.preventDefault();
     _handleSpace();
+  } else if(e.key!=="Unidentified"){
+    e.preventDefault();
   }
+});
+
+_spaceInput.addEventListener("input",()=>{
+  const val=_spaceInput.value;
+  _spaceInput.value=val.replace(/ /g,"");
+  const spaceCount=(val.match(/ /g)||[]).length;
+  for(let i=0;i<spaceCount;i++) _handleSpace();
 });
 
 document.getElementById("resetBtnSpace").addEventListener("click",()=>{
