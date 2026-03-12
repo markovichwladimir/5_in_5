@@ -114,7 +114,7 @@ let _sp=0, _sg=true;
 const _pressesText=document.getElementById("presses");
 const _timeSpaceText=document.getElementById("timeSpace");
 const _timesSpaceList=document.getElementById("timesSpace");
-const _spaceKey=document.getElementById("spaceKey");
+const _spaceInput=document.getElementById("spaceInput");
 const _resultsSpace=[];
 
 function _renderTimesSpace(){
@@ -134,14 +134,10 @@ function _renderTimesSpace(){
 }
 
 function _handleSpace(){
-  const activeTab=document.querySelector(".tabBtn.active").dataset.tab;
-  if(activeTab!=="space") return;
   if(_nameModal.style.display==="block") return;
   if(!_sg){alert("Game over. Click Reset.");return;}
   _playClick();
   _animateTitleClick();
-  _spaceKey.classList.add("pressed");
-  setTimeout(()=>_spaceKey.classList.remove("pressed"),100);
   if(_sc===0){_ss=Date.now();}
   _sc++;
   _pressesText.textContent=_sc;
@@ -164,15 +160,12 @@ function _handleSpace(){
   }
 }
 
-document.addEventListener("keydown",(e)=>{
-  if(e.code==="Space"&&e.target===document.body){
+_spaceInput.addEventListener("keydown",(e)=>{
+  if(e.code==="Space"){
     e.preventDefault();
     _handleSpace();
   }
 });
-
-_spaceKey.addEventListener("click",_handleSpace);
-_spaceKey.addEventListener("touchstart",(e)=>{e.preventDefault();_handleSpace();},{passive:false});
 
 document.getElementById("resetBtnSpace").addEventListener("click",()=>{
   _sc=0; _ss=null; _resultsSpace.length=0; _sp=0; _sg=true;
@@ -216,6 +209,7 @@ document.querySelectorAll(".tabBtn").forEach(btn=>{
     document.querySelectorAll(".tabPanel").forEach(p=>p.classList.remove("active"));
     btn.classList.add("active");
     document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
+    if(btn.dataset.tab==="space") _spaceInput.focus();
   });
 });
 document.getElementById("tab-game").classList.add("active");
