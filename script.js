@@ -171,6 +171,9 @@ document.addEventListener("keydown",(e)=>{
   }
 });
 
+_spaceKey.addEventListener("click",_handleSpace);
+_spaceKey.addEventListener("touchstart",(e)=>{e.preventDefault();_handleSpace();},{passive:false});
+
 document.getElementById("resetBtnSpace").addEventListener("click",()=>{
   _sc=0; _ss=null; _resultsSpace.length=0; _sp=0; _sg=true;
   _pressesText.textContent=0; _timeSpaceText.textContent="0.000"; _timesSpaceList.innerHTML="";
