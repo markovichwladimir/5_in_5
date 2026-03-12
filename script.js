@@ -161,11 +161,10 @@ function _handleSpace(){
 }
 
 _spaceInput.addEventListener("keydown",(e)=>{
-  if(e.code==="Space"){
-    e.preventDefault();
-    _handleSpace();
-  }
+  e.preventDefault();
+  if(e.code==="Space") _handleSpace();
 });
+_spaceInput.addEventListener("input",()=>{_spaceInput.value="";});
 
 document.getElementById("resetBtnSpace").addEventListener("click",()=>{
   _sc=0; _ss=null; _resultsSpace.length=0; _sp=0; _sg=true;
